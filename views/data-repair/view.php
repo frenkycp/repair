@@ -14,7 +14,7 @@ use dmstr\bootstrap\Tabs;
 
 $this->title = 'Data Repair ' . $model->no;
 $this->params['breadcrumbs'][] = ['label' => 'Data Repairs', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => (string)$model->id, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => (string)$model->no, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'View';
 ?>
 <div class="giiant-crud data-repair-view">
@@ -57,22 +57,22 @@ $this->params['breadcrumbs'][] = 'View';
             //'id',
         'no',
         'section',
+    	'priorityStr',
         'pic_prod',
         'pic_pe',
         'in_date',
         'model',
+    	'pcb',
+    	'est_finish_date',
+    	'out_date',
         'dest',
-        'pcb',
         'defect',
         'detail:ntext',
         'cause:ntext',
         'action',
         'location',
         'status',
-        'out_date',
         'remark:ntext',
-        'priorityStr	',
-        'est_finish_date',
         //'flag',
     ],
     ]); ?>
