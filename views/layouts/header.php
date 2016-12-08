@@ -20,7 +20,7 @@ use yii\helpers\Html;
             <ul class="nav navbar-nav">
 
                 <!-- Messages: style can be found in dropdown.less-->
-                <li class="dropdown messages-menu">
+                <li class="dropdown messages-menu"  style="display: none;">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-envelope-o"></i>
                         <span class="label label-success">4</span>
@@ -101,7 +101,7 @@ use yii\helpers\Html;
                         <li class="footer"><a href="#">See All Messages</a></li>
                     </ul>
                 </li>
-                <li class="dropdown notifications-menu">
+                <li class="dropdown notifications-menu"  style="display: none;">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-bell-o"></i>
                         <span class="label label-warning">10</span>
@@ -144,7 +144,7 @@ use yii\helpers\Html;
                     </ul>
                 </li>
                 <!-- Tasks: style can be found in dropdown.less -->
-                <li class="dropdown tasks-menu">
+                <li class="dropdown tasks-menu"  style="display: none;">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                         <i class="fa fa-flag-o"></i>
                         <span class="label label-danger">9</span>
@@ -245,7 +245,8 @@ use yii\helpers\Html;
                         </li>
                         <!-- Menu Body -->
                         <li class="user-body">
-                            <div class="col-xs-4 text-center">
+                        	<p class="text-center">You have the <strong>Power</strong> to change Yamaha</p>
+                            <!-- <div class="col-xs-4 text-center">
                                 <a href="#">Followers</a>
                             </div>
                             <div class="col-xs-4 text-center">
@@ -253,7 +254,7 @@ use yii\helpers\Html;
                             </div>
                             <div class="col-xs-4 text-center">
                                 <a href="#">Friends</a>
-                            </div>
+                            </div>  -->
                         </li>
                         <!-- Menu Footer-->
                         <li class="user-footer">
@@ -276,7 +277,7 @@ use yii\helpers\Html;
                 </li>
 
                 <!-- User Account: style can be found in dropdown.less -->
-                <li>
+                <li style="display: none;">
                     <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
                 </li>
             </ul>

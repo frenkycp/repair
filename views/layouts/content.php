@@ -36,10 +36,10 @@ use dmstr\widgets\Alert;
 </div>
 
 <footer class="main-footer">
-    <div class="pull-right hidden-xs">
+    <div class="pull-right hidden-xs" style="display: none;">
         <b>Version</b> 2.0
     </div>
-    <strong>Copyright &copy; 2014-2015 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+    <strong>Copyright &copy; 2016 <a href="#">PT. Yamaha Electronics  Manufacturing Indonesia</a>.</strong> All rights
     reserved.
 </footer>
 
