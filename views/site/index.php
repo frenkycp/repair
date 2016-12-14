@@ -35,7 +35,7 @@ $this->title = 'Home';
 					<h3><?= $rep_return; ?></h3>
 					<p>RETURN</p>
 				</div>
-				<?= Html::a('More Info ', Url::to(['data-repair/index','index_type' => 'retun']), ['target' => '_blank', 'class' => 'small-box-footer']); ?>
+				<?= Html::a('More Info ', Url::to(['data-repair/index','index_type' => 'return']), ['target' => '_blank', 'class' => 'small-box-footer']); ?>
 			</div>
 		</div>
 		
