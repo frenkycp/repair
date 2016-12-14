@@ -41,21 +41,37 @@ return Model::scenarios();
 */
 public function search($params)
 {
-$query = DataRepair::find()->orderBy(['priority' => SORT_ASC, 'in_date' => SORT_DESC, 'est_finish_date' => SORT_ASC]);
+	$query = DataRepair::find()->innerJoin('repair_status', 'status = name')->where(['flag' => 1])->orderBy(['repair_status.id' => SORT_ASC, 'priority' => SORT_ASC, 'est_finish_date' => SORT_ASC]);
+	if(\Yii::$app->user->identity->username == 'adminfa')
+	{
+		$query->andFilterWhere(['section' => 'FA']);
+	}else if(\Yii::$app->user->identity->username == 'adminpcb'){
+		$query->andFilterWhere(['section' => 'PCB']);
+	}
+	
+	if($params['index_type'] == 'open'){
+		$query->andFilterWhere(['status' => 'OPEN']);
+	}else if($params['index_type'] == 'return'){
+		$query->andFilterWhere(['status' => 'Return']);
+	}else if($params['index_type'] == 'scrap'){
+		$query->andFilterWhere(['status' => 'Scrap']);
+	}else if($params['index_type'] == 'ok'){
+		$query->andFilterWhere(['status' => 'OK']);
+	}
 
-$dataProvider = new ActiveDataProvider([
-'query' => $query,
-]);
+	$dataProvider = new ActiveDataProvider([
+		'query' => $query,
+	]);
 
-$this->load($params);
+	$this->load($params);
 
-if (!$this->validate()) {
-// uncomment the following line if you do not want to any records when validation fails
-// $query->where('0=1');
-return $dataProvider;
-}
+	if (!$this->validate()) {
+		// uncomment the following line if you do not want to any records when validation fails
+		// $query->where('0=1');
+		return $dataProvider;
+	}
 
-$query->andFilterWhere([
+	$query->andFilterWhere([
             'id' => $this->id,
             'in_date' => $this->in_date,
             'out_date' => $this->out_date,
@@ -79,6 +95,6 @@ $query->andFilterWhere([
             ->andFilterWhere(['like', 'status', $this->status])
             ->andFilterWhere(['like', 'remark', $this->remark]);
 
-return $dataProvider;
+	return $dataProvider;
 }
 }

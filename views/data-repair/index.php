@@ -3,6 +3,9 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\grid\GridView;
+use kartik\date\DatePicker;
+use yii\helpers\ArrayHelper;
+use app\models\RepairTime;
 
 
 /**
@@ -22,13 +25,14 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="clearfix">
         <p class="pull-left">
-            <?= Html::a('<span class="glyphicon glyphicon-plus"></span> ' . 'New', ['create'], ['class' => 'btn btn-success']) ?>
+            <?= Yii::$app->user->identity->username == 'guest' ? '' : Html::a('<span class="glyphicon glyphicon-plus"></span> ' . 'New', ['create'], ['class' => 'btn btn-success']) ?>
         </p>
 
         <div class="pull-right">
 
                         
             <?= '';
+            
             /* \yii\bootstrap\ButtonDropdown::widget(
                 [
                     'id'       => 'giiant-relations',
@@ -81,16 +85,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
                 'headerRowOptions' => ['class'=>'center-text'],
                 'columns' => [
-
-                        [
-            'class' => 'yii\grid\ActionColumn',
-            'urlCreator' => function($action, $model, $key, $index) {
-                // using the column name as key, not mapping to 'id' like the standard generator
-                $params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
-                $params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
-                return Url::toRoute($params);
-            },
-            'contentOptions' => ['nowrap'=>'nowrap']
+                		[
+            				'class' => 'yii\grid\ActionColumn',
+                        	'template' => $template,
+							'urlCreator' => function($action, $model, $key, $index) {
+                				// using the column name as key, not mapping to 'id' like the standard generator
+                				$params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
+                				$params[0] = \Yii::$app->controller->id ? \Yii::$app->controller->id . '/' . $action : $action;
+                				return Url::toRoute($params);
+            				},
+            				'contentOptions' => ['nowrap'=>true]
         ],
 			'no',
 			//'pic_prod',
@@ -98,33 +102,41 @@ $this->params['breadcrumbs'][] = $this->title;
 			[
 				'class' => '\kartik\grid\DataColumn',
 				'hAlign' => 'center',
+				'format' => ['date', 'php:d-M-Y'],
 				'attribute' => 'in_date',
 				'value' => 'in_date',
+				'filterType' => GridView::FILTER_DATE,
+				'filterWidgetOptions' => $filterOptions,
 				'noWrap' => true,
 			],
 			[
 				'class' => '\kartik\grid\DataColumn',
 				'hAlign' => 'center',
+				'format' => ['date', 'php:d-M-Y'],
 				'attribute' => 'est_finish_date',
 				'value' => function ($model){
 					return $model->est_finish_date;
 				},
+				'filterType' => GridView::FILTER_DATE,
+				'filterWidgetOptions' => $filterOptions,
 				'noWrap' => true,
 			],
-			'section',
+			//'section',
 			[
 					'class' => '\kartik\grid\DataColumn',
 					'hAlign' => 'center',
 					'attribute' => 'priority',
 					'format' => 'raw',
-					'filterType' => GridView::FILTER_SELECT2,
+					'filter' => [1 => 'URGENT', 2 => 'NORMAL'],
+					//'filter' => Html::dropDownList('priority', null, [1 => 'URGENT', 2 => 'NORMAL'],['class'=>'form-control','prompt' => '']),
+					/* 'filterType' => GridView::FILTER_SELECT2,
 					'filterWidgetOptions' => [
 							'data' => [1 => 'URGENT', 2 => 'NORMAL'],
-							'options' => ['placeholder' => 'PRIORITY'],
+							'options' => ['placeholder' => 'Priority'],
 							'pluginOptions' => ['allowClear' => true],
-            		],
+            		], */
 					'value' => function ($model){
-						return $model->priority == 1 ? '<p class="btn btn-danger">URGENT<p/>' : '<p class="btn btn-info">NORMAL<p/>';
+						return $model->priority == 1 ? '<div class="bg-red">URGENT</div>' : '<div class="bg-green">NORMAL</div>';
             		},
             ],
             //'model',
@@ -132,29 +144,72 @@ $this->params['breadcrumbs'][] = $this->title;
             	'class' => '\kartik\grid\DataColumn',
             	'hAlign' => 'center',
             	'attribute' => 'model',
+            	'filterType' => GridView::FILTER_SELECT2,
+            	'filterWidgetOptions' => [
+            			'data' => $data_model,
+            			'options' => ['placeholder' => 'Model'],
+            			'pluginOptions' => ['allowClear' => true],
+            	],
             	'value' => 'model',
             	'noWrap' => true,
             ],
-            'dest',
+            
             //'pcb',
             [
             	'class' => '\kartik\grid\DataColumn',
             	'hAlign' => 'center',
             	'attribute' => 'pcb',
+            		'filterType' => GridView::FILTER_SELECT2,
+            		'filterWidgetOptions' => [
+            				'data' => $data_pcb,
+            				'options' => ['placeholder' => 'PCB'],
+            				'pluginOptions' => ['allowClear' => true],
+            		],
             	'value' => 'pcb',
             	'noWrap' => true,
             ],
+            'dest',
             //'defect',
             'detail:ntext',
-            'cause:ntext',
+            //'cause:ntext',
             'action',
             //'location',
-            'status',
+            [
+            	'class' => '\kartik\grid\DataColumn',
+            	'hAlign' => 'center',
+            	'format' => 'raw',
+            	'attribute' => 'status',
+            	'value' => function ($model){
+            		if($model->status == 'OPEN')
+            		{
+            			$bg_class = 'bg-red';
+            		}else if($model->status == 'Return'){
+            			$bg_class = 'bg-teal';
+            		}else if($model->status == 'Scrap'){
+            			$bg_class = 'bg-yellow';
+            		}else if($model->status == 'OK'){
+            			$bg_class = 'bg-green';
+            		}
+            		return '<div class="' . $bg_class . '">' . $model->status . '</div>';
+           		},
+            	'filter' => [
+            			'Open' => 'Open',
+            			'Return' => 'Return',
+            			'Scrap' => 'Scrap',
+            			'OK' => 'OK'
+            	]
+            ],
             [
 	            'class' => '\kartik\grid\DataColumn',
 	            'hAlign' => 'center',
 	            'attribute' => 'out_date',
-	            'value' => 'out_date',
+            	'format' => ['date', 'php:d-M-Y'],
+	            //'value' => 'out_date',
+            	'value' => function($model){
+            		return $model->out_date == '0000-00-00' ? NULL : $model->out_date;
+            	},
+            	'filterType' => GridView::FILTER_DATE,
+            	'filterWidgetOptions' => $filterOptions,
 	            'noWrap' => true,
             ],
 			//'remark:ntext',

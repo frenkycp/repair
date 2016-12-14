@@ -7,8 +7,8 @@ use app\models\search\RepairTimeSearch;
 use yii\web\Controller;
 use yii\web\HttpException;
 use yii\helpers\Url;
-use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
+use yii\helpers\ArrayHelper;
 
 /**
  * RepairTimeController implements the CRUD actions for RepairTime model.
@@ -35,6 +35,9 @@ class RepairTimeController extends Controller
 	{
 		$searchModel  = new RepairTimeSearch;
 		$dataProvider = $searchModel->search($_GET);
+		
+		$data_model = ArrayHelper::map(RepairTime::find()->select('model')->distinct(true)->orderBy('model')->all(), 'model', 'model');
+		$data_pcb = ArrayHelper::map(RepairTime::find()->select('pcb')->distinct(true)->orderBy('pcb')->all(), 'pcb', 'pcb');
 
 		Tabs::clearLocalStorage();
 
@@ -44,6 +47,8 @@ class RepairTimeController extends Controller
 		return $this->render('index', [
 			'dataProvider' => $dataProvider,
 			'searchModel' => $searchModel,
+			'data_model' => $data_model,
+			'data_pcb' => $data_pcb,
 		]);
 	}
 
@@ -114,7 +119,9 @@ class RepairTimeController extends Controller
 	public function actionDelete($id_time)
 	{
         try {
-            $this->findModel($id_time)->delete();
+            $model = $this->findModel($id_time);
+            $model->flag = 0;
+            $model->save();
         } catch (\Exception $e) {
             $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
             \Yii::$app->getSession()->setFlash('error', $msg);

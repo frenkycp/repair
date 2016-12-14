@@ -11,6 +11,7 @@ use yii\filters\AccessControl;
 use dmstr\bootstrap\Tabs;
 use app\models\SectionCount;
 use app\models\RepairTime;
+use yii\helpers\ArrayHelper;
 
 /**
  * DataRepairController implements the CRUD actions for DataRepair model.
@@ -42,6 +43,32 @@ class DataRepairController extends Controller
 	 */
 	public function actionIndex()
 	{
+		//different template for different user
+		$roleid = \Yii::$app->user->identity->role_id;
+		if($roleid == 3) //Guest
+		{
+			$template = '{view}';
+		}else if($roleid == 4 || $roleid == 5){ //Admin FA or PCB
+			$template = '{view} {update}';
+		}else if($roleid ==14 || $roleid == 2){ //Admin or Superadmin
+			$template = '{view} {update} {delete}';
+		}
+		
+		//for datepicker filter
+		$filterOptions = [
+				'pickerButton' => false,
+				'readonly' => true,
+				'size' => 'sm',
+				'pluginOptions' => [
+						'autoclose'=>true,
+						'format' => 'yyyy-mm-dd',
+						'todayHighlight' => true,
+				],
+		];
+		
+		$data_model = ArrayHelper::map(RepairTime::find()->select('model')->distinct(true)->orderBy('model')->all(), 'model', 'model');
+		$data_pcb = ArrayHelper::map(RepairTime::find()->select('pcb')->distinct(true)->orderBy('pcb')->all(), 'pcb', 'pcb');
+		
 		$searchModel  = new DataRepairSearch;
 		$dataProvider = $searchModel->search($_GET);
 
@@ -53,6 +80,10 @@ class DataRepairController extends Controller
 		return $this->render('index', [
 			'dataProvider' => $dataProvider,
 			'searchModel' => $searchModel,
+			'template' => $template,
+			'filterOptions' => $filterOptions,
+			'data_model' => $data_model,
+			'data_pcb' => $data_pcb,
 		]);
 	}
 	
@@ -154,6 +185,7 @@ class DataRepairController extends Controller
 	public function actionUpdate($id)
 	{
 		$model = $this->findModel($id);
+		$model->repair_time_id = self::getRepairTimeId($model->model, $model->pcb);
 
 		if ($model->load($_POST) && $model->save()) {
             return $this->redirect(Url::previous());
@@ -173,7 +205,9 @@ class DataRepairController extends Controller
 	public function actionDelete($id)
 	{
         try {
-            $this->findModel($id)->delete();
+        	$model = $this->findModel($id);
+        	$model->flag = 0;
+        	$model->save();
         } catch (\Exception $e) {
             $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
             \Yii::$app->getSession()->setFlash('error', $msg);

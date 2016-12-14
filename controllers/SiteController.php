@@ -13,6 +13,7 @@ use yii\web\Controller;
 use app\models\LoginForm;
 use app\models\ContactForm;
 use yii\web\UploadedFile;
+use app\models\DataRepair;
 
 class SiteController extends Controller
 {
@@ -39,7 +40,32 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
-        return $this->render('index');
+    	$rep_open = DataRepair::find()->where(['flag' => 1, 'status' => 'OPEN']);
+    	$rep_return = DataRepair::find()->where(['flag' => 1, 'status' => 'Return']);
+    	$rep_scrap = DataRepair::find()->where(['flag' => 1, 'status' => 'Scrap']);
+    	$rep_ok = DataRepair::find()->where(['flag' => 1, 'status' => 'OK']);
+    	
+    	if(\Yii::$app->user->identity->role_id == 4) //admin FA
+    	{
+    		$rep_open->andFilterWhere(['section' => 'FA']);
+    		$rep_return->andFilterWhere(['section' => 'FA']);
+    		$rep_scrap->andFilterWhere(['section' => 'FA']);
+    		$rep_ok->andFilterWhere(['section' => 'FA']);
+    	}else if(\Yii::$app->user->identity->role_id == 5) //admin PCB
+    	{
+    		$rep_open->andFilterWhere(['section' => 'PCB']);
+    		$rep_return->andFilterWhere(['section' => 'PCB']);
+    		$rep_scrap->andFilterWhere(['section' => 'PCB']);
+    		$rep_ok->andFilterWhere(['section' => 'PCB']);
+    	}
+    	
+    	
+        return $this->render('index', [
+        		'rep_open' => $rep_open->count(),
+        		'rep_return' => $rep_return->count(),
+        		'rep_scrap' => $rep_scrap->count(),
+        		'rep_ok' => $rep_ok->count(),
+        ]);
     }
 
     public function actionProfile()

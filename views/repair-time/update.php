@@ -7,7 +7,7 @@ use yii\helpers\Html;
  * @var app\models\RepairTime $model
  */
 
-$this->title = 'Repair Time ' . $model->id_time . ', ' . 'Edit';
+$this->title = 'Repair Time ' . $model->model . ' ' . $model->pcb . ', ' . 'Edit';
 $this->params['breadcrumbs'][] = ['label' => 'Repair Times', 'url' => ['index']];
 $this->params['breadcrumbs'][] = ['label' => (string)$model->id_time, 'url' => ['view', 'id_time' => $model->id_time]];
 $this->params['breadcrumbs'][] = 'Edit';

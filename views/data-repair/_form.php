@@ -9,6 +9,7 @@ use kartik\widgets\DatePicker;
 use app\models\DataRepair;
 use kartik\widgets\Typeahead;
 use kartik\widgets\TypeaheadBasic;
+use yii\helpers\Url;
 
 /**
 * @var yii\web\View $this
@@ -76,7 +77,9 @@ use kartik\widgets\TypeaheadBasic;
 					'options' => ['placeholder' => 'Input name ...'],
 					'pluginOptions' => ['highlight'=>true],
 			]); ?>
-			<?= $form->field($model, 'priority')->dropDownList([2 => 'NORMAL', 1 => 'URGENT']) ?>
+			<?= $form->field($model, 'priority')->dropDownList([2 => 'NORMAL', 1 => 'URGENT'], [
+					'disabled' => in_array(Yii::$app->user->identity->username, ['admin', 'superadmin']) ? FALSE : TRUE,
+			]) ?>
 			<?= $form->field($model, 'in_date')->widget(DatePicker::className(), [
 					'options' => ['placeholder' => 'Enter in date ...'],
 					'pluginOptions' => [
@@ -152,6 +155,7 @@ use kartik\widgets\TypeaheadBasic;
                 ]
                 );
                 ?>
+                &nbsp;&nbsp;<?php echo html::a('Cancel', Url::to(['data-repair/index']), ['class' => 'btn btn-danger'])?>
 
                 <?php ActiveForm::end(); ?>
 

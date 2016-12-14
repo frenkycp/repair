@@ -1,6 +1,9 @@
 <?php
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\ArrayHelper;
+use app\models\User;
+use yii\web\View;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
@@ -8,9 +11,25 @@ use yii\bootstrap\ActiveForm;
 
 $this->title = 'Sign In';
 
+$script = <<< JS
+	$("#user_login").change(function(){
+		if($("#user_login").val() == "guest"){
+			$("#password_login").val("guest");
+			$("#password_login").prop('readonly', true);
+			$("#login-form").submit();
+		}else{
+			$("#password_login").val("");
+			$("#password_login").prop('readonly', false);
+		}
+	});
+	
+JS;
+
+$this->registerJs($script, View::POS_END);
+
 $fieldOptions1 = [
     'options' => ['class' => 'form-group has-feedback'],
-    'inputTemplate' => "{input}<span class='glyphicon glyphicon-envelope form-control-feedback'></span>"
+    'inputTemplate' => "{input}<span class='glyphicon form-control-feedback'></span>"
 ];
 
 $fieldOptions2 = [
@@ -28,20 +47,22 @@ $fieldOptions2 = [
         <p class="login-box-msg">Sign in to start your session</p>
 
         <?php $form = ActiveForm::begin(['id' => 'login-form', 'enableClientValidation' => false]); ?>
-
         <?= $form
             ->field($model, 'username', $fieldOptions1)
             ->label(false)
-            ->textInput(['placeholder' => $model->getAttributeLabel('username')]) ?>
+            ->dropDownList(ArrayHelper::map(User::find()->all(), 'username', 'name'), [
+            		'id' => 'user_login',
+            		'prompt' => 'Select user ...',
+        ]) ?>
 
         <?= $form
             ->field($model, 'password', $fieldOptions2)
             ->label(false)
-            ->passwordInput(['placeholder' => $model->getAttributeLabel('password')]) ?>
+            ->passwordInput(['placeholder' => $model->getAttributeLabel('password'), 'id' => 'password_login']) ?>
 
         <div class="row">
             <div class="col-xs-8">
-                <?= '';//$form->field($model, 'rememberMe')->checkbox() ?>
+                <?= $form->field($model, 'rememberMe')->checkbox() ?>
             </div>
             <!-- /.col -->
             <div class="col-xs-4">

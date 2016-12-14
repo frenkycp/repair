@@ -21,7 +21,7 @@ class DataRepair extends BaseDataRepair
 				'pic_pe' => 'PIC PE',
 				'in_date' => 'In Date',
 				'model' => 'Model',
-				'dest' => 'Destination',
+				'dest' => 'Dest',
 				'pcb' => 'PCB',
 				'defect' => 'Defect',
 				'detail' => 'Detail',
@@ -32,7 +32,7 @@ class DataRepair extends BaseDataRepair
 				'out_date' => 'Out Date',
 				'remark' => 'Remark',
 				'priority' => 'Priority',
-				'est_finish_date' => 'Estimated Finish Date',
+				'est_finish_date' => 'Est Finish Date',
 				'flag' => 'Flag',
 				'priorityStr' => 'Priority',
 		];
