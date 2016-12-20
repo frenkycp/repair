@@ -25,7 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <div class="clearfix">
         <p class="pull-left">
-            <?= Yii::$app->user->identity->username == 'guest' ? '' : Html::a('<span class="glyphicon glyphicon-plus"></span> ' . 'New', ['create'], ['class' => 'btn btn-success']) ?>
+            <?= in_array(Yii::$app->user->identity->role_id, [2, 3]) ? '' : Html::a('<span class="glyphicon glyphicon-plus"></span> ' . 'New', ['create'], ['class' => 'btn btn-success']) ?>
         </p>
 
         <div class="pull-right">

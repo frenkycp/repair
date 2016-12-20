@@ -50,7 +50,7 @@ $fieldOptions2 = [
         <?= $form
             ->field($model, 'username', $fieldOptions1)
             ->label(false)
-            ->dropDownList(ArrayHelper::map(User::find()->all(), 'username', 'name'), [
+            ->dropDownList(ArrayHelper::map(User::find()->orderBy('name ASC')->all(), 'username', 'name'), [
             		'id' => 'user_login',
             		'prompt' => 'Select user ...',
         ]) ?>
