@@ -152,14 +152,14 @@ class DataRepairController extends Controller
 			$new_no = 'F' . str_pad($section_count->total_count+1, 4, '0', STR_PAD_LEFT);
 			$model->no = $new_no;
 			$model->section = "FA";
-			$model->status = 'OPEN';
 		}else if(\Yii::$app->user->identity->role->name == 'Admin PCB'){
 			$section_count = SectionCount::find()->where(['section' => 'PCB'])->one();
 			$new_no = 'P' . str_pad($section_count->total_count+1, 4, '0', STR_PAD_LEFT);
 			$model->no = $new_no;
 			$model->section = "PCB";
-			$model->status = 'OPEN';
 		}
+		$model->status = 'OPEN';
+		$model->priority = 2;
 
 		try {
             if ($model->load($_POST) && $model->save()) {
@@ -187,8 +187,37 @@ class DataRepairController extends Controller
 		$model = $this->findModel($id);
 		$model->repair_time_id = self::getRepairTimeId($model->model, $model->pcb);
 
-		if ($model->load($_POST) && $model->save()) {
-            return $this->redirect(Url::previous());
+		if ($model->load($_POST)) {
+			
+			if($model->priority == 1 && $model->oldAttributes['priority'] == 2)
+			{
+				$model->est_finish_date = NULL;
+				$days = RepairTime::find()->select('est_time')->where(['model' => $model->model, 'pcb' => $model->pcb])->one();
+				$dataOpen = DataRepair::find()->where(['status' => 'OPEN', 'priority' => 2])->all();
+				
+				if(!empty($dataOpen)){
+					
+					foreach ($dataOpen as $dataRepair)
+					{
+						$est = $dataRepair->est_finish_date;
+						if($est == NULL)
+						{
+							$est = date('Y-m-d');
+						}
+						$dataRepair->est_finish_date = date('Y-m-d', strtotime($est. ' + ' . $days->est_time . ' days'));
+						$dataRepair->save();
+					}
+				}
+			}
+			if($model->save())
+			{
+				return $this->redirect(Url::previous());
+			}
+			else
+			{
+				return $model->errors;
+			}
+            
 		} else {
 			return $this->render('update', [
 				'model' => $model,

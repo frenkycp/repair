@@ -96,9 +96,17 @@ $this->params['breadcrumbs'][] = $this->title;
             				},
             				'contentOptions' => ['nowrap'=>true]
         ],
-			'no',
+			//'no',
 			//'pic_prod',
 			//'pic_pe',
+			[
+				'class' => '\kartik\grid\DataColumn',
+				'hAlign' => 'center',
+				'attribute' => 'no',
+				'value' => 'no',
+				'noWrap' => true,
+				'width' => '100px',
+			],
 			[
 				'class' => '\kartik\grid\DataColumn',
 				'hAlign' => 'center',
@@ -168,7 +176,14 @@ $this->params['breadcrumbs'][] = $this->title;
             	'value' => 'pcb',
             	'noWrap' => true,
             ],
-            'dest',
+            [
+	            'class' => '\kartik\grid\DataColumn',
+	            'hAlign' => 'center',
+	            'attribute' => 'defect',
+	            'value' => 'defect',
+	            //'noWrap' => true,
+            ],
+            //'defect',
             //'defect',
             'detail:ntext',
             //'cause:ntext',
@@ -179,13 +194,14 @@ $this->params['breadcrumbs'][] = $this->title;
             	'hAlign' => 'center',
             	'format' => 'raw',
             	'attribute' => 'status',
+            	'width' => '100px',
             	'value' => function ($model){
-            		if($model->status == 'OPEN')
+            		if(strtoupper($model->status) == 'OPEN')
             		{
             			$bg_class = 'bg-red';
-            		}else if($model->status == 'Return'){
+            		}else if(strtoupper($model->status) == 'RETURN'){
             			$bg_class = 'bg-teal';
-            		}else if($model->status == 'Scrap'){
+            		}else if(strtoupper($model->status) == 'SCRAP'){
             			$bg_class = 'bg-yellow';
             		}else if($model->status == 'OK'){
             			$bg_class = 'bg-green';
@@ -193,9 +209,9 @@ $this->params['breadcrumbs'][] = $this->title;
             		return '<div class="' . $bg_class . '">' . $model->status . '</div>';
            		},
             	'filter' => [
-            			'Open' => 'Open',
-            			'Return' => 'Return',
-            			'Scrap' => 'Scrap',
+            			'OPEN' => 'Open',
+            			'RETURN' => 'Return',
+            			'SCRAP' => 'Scrap',
             			'OK' => 'OK'
             	]
             ],

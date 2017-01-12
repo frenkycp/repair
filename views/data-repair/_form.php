@@ -94,6 +94,9 @@ use yii\helpers\Url;
                   		$( "select#pcb" ).html( data );
                 	});',
 			]) ?>
+			
+			<?= $form->field($model, 'dest')->textInput(['maxlength' => true]) ?>
+			
 			<?= $form->field($model, 'pcb')->dropDownList($data_pcb,[
 					'id' => 'pcb',
 					'prompt' => 'Select a PCB ...',
@@ -117,7 +120,7 @@ use yii\helpers\Url;
 							'todayHighlight' => true
 					]
 			]) ?>
-			<?= $form->field($model, 'dest')->textInput(['maxlength' => true]) ?>
+			
 			<?= $form->field($model, 'defect')->textInput(['maxlength' => true]) ?>
 			<?= $form->field($model, 'detail')->textarea(['rows' => 6]) ?>
 			<?= $form->field($model, 'cause')->textarea(['rows' => 6]) ?>
