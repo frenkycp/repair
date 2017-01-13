@@ -191,7 +191,7 @@ class DataRepairController extends Controller
 			
 			if($model->priority == 1 && $model->oldAttributes['priority'] == 2)
 			{
-				$model->est_finish_date = NULL;
+				//$model->est_finish_date = NULL;
 				$days = RepairTime::find()->select('est_time')->where(['model' => $model->model, 'pcb' => $model->pcb])->one();
 				$dataOpen = DataRepair::find()->where(['status' => 'OPEN', 'priority' => 2])->all();
 				
