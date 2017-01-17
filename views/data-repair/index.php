@@ -77,6 +77,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'dataProvider' => $dataProvider,
                 'filterRowOptions'=>['class'=>'kartik-sheet-style'],
                 'responsive' => true,
+                		'pjax'=>true,
                 'pager'        => [
                     'class'          => yii\widgets\LinkPager::className(),
                     'firstPageLabel' => 'First',
@@ -113,7 +114,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'format' => ['date', 'php:d-M-Y'],
 				'attribute' => 'in_date',
 				'value' => 'in_date',
-				'filterType' => GridView::FILTER_DATE,
+				//'filterType' => GridView::FILTER_DATE,
 				'filterWidgetOptions' => $filterOptions,
 				'noWrap' => true,
 			],
@@ -128,6 +129,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'filterType' => GridView::FILTER_DATE,
 				'filterWidgetOptions' => $filterOptions,
 				'noWrap' => true,
+				'enableSorting' => true,
 			],
 			//'section',
 			[
@@ -193,7 +195,7 @@ $this->params['breadcrumbs'][] = $this->title;
             	'class' => '\kartik\grid\DataColumn',
             	'hAlign' => 'center',
             	'format' => 'raw',
-            	'attribute' => 'status',
+            	'attribute' => 'repairStatusId',
             	'width' => '100px',
             	'value' => function ($model){
             		if(strtoupper($model->status) == 'OPEN')
@@ -209,10 +211,10 @@ $this->params['breadcrumbs'][] = $this->title;
             		return '<div class="' . $bg_class . '">' . $model->status . '</div>';
            		},
             	'filter' => [
-            			'OPEN' => 'Open',
-            			'RETURN' => 'Return',
-            			'SCRAP' => 'Scrap',
-            			'OK' => 'OK'
+            			1 => 'OPEN',
+            			2 => 'RETURN',
+            			3 => 'SCRAP',
+            			4 => 'OK'
             	]
             ],
             [

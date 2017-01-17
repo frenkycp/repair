@@ -18,7 +18,7 @@ class DataRepairSearch extends DataRepair
 public function rules()
 {
 return [
-[['id', 'priority', 'flag'], 'integer'],
+[['id', 'priority', 'flag', 'repairStatusId'], 'integer'],
             [['no', 'section', 'pic_prod', 'pic_pe', 'in_date', 'model', 'dest', 'pcb', 'defect', 'detail', 'cause', 'action', 'location', 'status', 'out_date', 'remark', 'est_finish_date'], 'safe'],
 ];
 }
@@ -41,7 +41,7 @@ return Model::scenarios();
 */
 public function search($params)
 {
-	$query = DataRepair::find()->innerJoin('repair_status', 'status = name')->where(['flag' => 1])->orderBy(['priority' => SORT_ASC, 'no' => SORT_ASC]);
+	$query = DataRepair::find()->innerJoin('repair_status', 'status = name')->where(['flag' => 1])->orderBy(['priority' => SORT_ASC]);
 	if(\Yii::$app->user->identity->username == 'adminfa')
 	{
 		$query->andFilterWhere(['section' => 'FA']);
@@ -62,6 +62,26 @@ public function search($params)
 	$dataProvider = new ActiveDataProvider([
 		'query' => $query,
 	]);
+	
+	$dataProvider->setSort([
+			'defaultOrder' => [
+					'no' => SORT_ASC
+			],
+			'attributes' => [
+					'priority',
+					'repairStatusId' => [
+							'asc' => [
+									'repair_status.id' => SORT_ASC
+							],
+							'desc' => [
+									'repair_status.id' => SORT_DESC
+							]
+					],
+					'no',
+					'in_date',
+					'status',
+			]
+	]);
 
 	$this->load($params);
 
@@ -78,6 +98,7 @@ public function search($params)
             'priority' => $this->priority,
             'est_finish_date' => $this->est_finish_date,
             'flag' => $this->flag,
+			'repair_status.id' => $this->repairStatusId,
         ]);
 
         $query->andFilterWhere(['like', 'no', $this->no])

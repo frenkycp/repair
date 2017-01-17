@@ -11,6 +11,8 @@ use \app\models\base\DataRepair as BaseDataRepair;
 class DataRepair extends BaseDataRepair
 {
 	
+	public $repairStatusId;
+	
 	public function attributeLabels()
 	{
 		return [
@@ -35,6 +37,8 @@ class DataRepair extends BaseDataRepair
 				'est_finish_date' => 'Est Finish Date',
 				'flag' => 'Flag',
 				'priorityStr' => 'Priority',
+				'repair_status.id' => 'Status',
+				'repairStatusId' => 'Status',
 		];
 	}
 	

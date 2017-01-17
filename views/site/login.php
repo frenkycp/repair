@@ -70,8 +70,7 @@ $fieldOptions2 = [
             </div>
             <!-- /.col -->
         </div>
-
-
+        
         <?php ActiveForm::end(); ?>
 
         <div class="social-auth-links text-center" style="display: none;">
@@ -85,7 +84,12 @@ $fieldOptions2 = [
 
         <a href="#" style="display: none;">I forgot my password</a><br>
         <?= ''; //Html::a("Register a new membership", ["site/register"], ["class"=>"text-center"]) ?>
-
+		
     </div>
+    <div class="row" style="text-align: center;">
+        <div class="col-xs-6">
+       		<?php echo '<strong>Download Chrome <u>' . Html::a('HERE', Yii::$app->urlManager->getBaseUrl() . '/files/ChromeStandaloneSetup.exe') . '</u>' . '</strong>'?>
+       	</div>
+	</div>
     <!-- /.login-box-body -->
 </div><!-- /.login-box -->
