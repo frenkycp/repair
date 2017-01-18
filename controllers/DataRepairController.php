@@ -87,9 +87,12 @@ class DataRepairController extends Controller
 		]);
 	}
 	
-	public function actionEstimatedDate($model, $pcb)
+	public function actionEstimatedDate($model, $section, $pcb)
 	{
-		$data_repair = DataRepair::find()->where(['status' => 'OPEN'])->orderBy(['est_finish_date' => SORT_DESC])->one();
+		$data_repair = DataRepair::find()->where([
+				'status' => 'OPEN', 
+				'section' => $section
+		])->andWhere(['not', ['est_finish_date' => null]])->orderBy(['est_finish_date' => SORT_DESC])->one();
 		$repair_time = RepairTime::find()->where(['model' => $model, 'pcb' => $pcb])->one();
 		if(empty($repair_time))
 		{

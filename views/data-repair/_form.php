@@ -100,7 +100,7 @@ use yii\helpers\Url;
 			<?= $form->field($model, 'pcb')->dropDownList($data_pcb,[
 					'id' => 'pcb',
 					'prompt' => 'Select a PCB ...',
-					'onchange' => '$.post( "'.Yii::$app->urlManager->createUrl('data-repair/estimated-date?model=') . '"+$("#datarepair-model").val()+"&pcb=' . '"+$(this).val(), function( data ) {
+					'onchange' => '$.post( "'.Yii::$app->urlManager->createUrl('data-repair/estimated-date?model=') . '"+$("#datarepair-model").val()+"&section="+$("#datarepair-section").val()+"&pcb="+$(this).val(), function( data ) {
                   		$( "#estimated_date" ).val( data );
                 	});',
 			]) ?>
