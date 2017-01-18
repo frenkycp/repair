@@ -10,6 +10,7 @@ use app\models\DataRepair;
 use kartik\widgets\Typeahead;
 use kartik\widgets\TypeaheadBasic;
 use yii\helpers\Url;
+use app\models\RepairStatus;
 
 /**
 * @var yii\web\View $this
@@ -53,6 +54,8 @@ use yii\helpers\Url;
 					'select' => 'pcb',
 					'distinct' => true,
 			])->where(['model' => $model->model])->orderBy(['pcb' => SORT_ASC])->asArray()->all(), 'pcb', 'pcb');
+			
+			$data_status = ArrayHelper::map(RepairStatus::find()->all(), 'name', 'name');
 			
 			$pic_prod = ArrayHelper::map(DataRepair::find()->select('pic_prod')->distinct()->orderBy('pic_prod ASC')->all(), 'pic_prod', 'pic_prod') ;
 			$pic_pe = ArrayHelper::map(DataRepair::find()->select('pic_pe')->distinct()->orderBy('pic_pe ASC')->all(), 'pic_pe', 'pic_pe') ;
@@ -126,7 +129,7 @@ use yii\helpers\Url;
 			<?= $form->field($model, 'cause')->textarea(['rows' => 6]) ?>
 			<?= $form->field($model, 'action')->textInput(['maxlength' => true]) ?>
 			<?= $form->field($model, 'location')->textInput(['maxlength' => true]) ?>
-			<?= $form->field($model, 'status')->dropDownList(['OPEN' => 'OPEN', 'OK' => 'OK', 'RETURN' => 'RETURN', 'SCRAP' => 'SCRAP'], [
+			<?= $form->field($model, 'status')->dropDownList($data_status, [
 					'disabled' => $model->isNewRecord ? true : false,
 			]) ?>
 			<?= $form->field($model, 'remark')->textarea(['rows' => 6]) ?>

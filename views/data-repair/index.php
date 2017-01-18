@@ -6,6 +6,7 @@ use kartik\grid\GridView;
 use kartik\date\DatePicker;
 use yii\helpers\ArrayHelper;
 use app\models\RepairTime;
+use app\models\RepairStatus;
 
 
 /**
@@ -21,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="giiant-crud data-repair-index">
 
     <?php //     echo $this->render('_search', ['model' =>$searchModel]);
+	$filter_status = ArrayHelper::map(RepairStatus::find()->all(), 'id', 'name');
     ?>
 
     <div class="clearfix">
@@ -210,12 +212,7 @@ $this->params['breadcrumbs'][] = $this->title;
             		}
             		return '<div class="' . $bg_class . '">' . $model->status . '</div>';
            		},
-            	'filter' => [
-            			1 => 'OPEN',
-            			2 => 'RETURN',
-            			3 => 'SCRAP',
-            			4 => 'OK'
-            	]
+            	'filter' => $filter_status
             ],
             [
 	            'class' => '\kartik\grid\DataColumn',
