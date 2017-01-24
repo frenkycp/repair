@@ -87,6 +87,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel' => $searchModel,
                 'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
                 'headerRowOptions' => ['class'=>'center-text'],
+                		'exportConfig' => [
+                				
+                				GridView::EXCEL => [
+                						'filename' => 'Data Repair ' . date('Y-m-d H:i:s'),
+                				],
+                		],
                 'columns' => [
                 		[
             				'class' => 'yii\grid\ActionColumn',
@@ -109,6 +115,24 @@ $this->params['breadcrumbs'][] = $this->title;
 				'value' => 'no',
 				'noWrap' => true,
 				'width' => '100px',
+			],
+			[
+			'class' => '\kartik\grid\DataColumn',
+			'hAlign' => 'center',
+			'attribute' => 'pic_prod',
+			'value' => 'pic_prod',
+					'hidden' => true,
+			'noWrap' => true,
+			'width' => '100px',
+			],
+			[
+			'class' => '\kartik\grid\DataColumn',
+			'hAlign' => 'center',
+			'attribute' => 'pic_pe',
+			'value' => 'pic_pe',
+					'hidden' => true,
+			'noWrap' => true,
+			'width' => '100px',
 			],
 			[
 				'class' => '\kartik\grid\DataColumn',
@@ -165,8 +189,14 @@ $this->params['breadcrumbs'][] = $this->title;
             	'value' => 'model',
             	'noWrap' => true,
             ],
-            
-            //'pcb',
+            [
+            'class' => '\kartik\grid\DataColumn',
+            'hAlign' => 'center',
+            'attribute' => 'dest',
+            'value' => 'dest',
+            'noWrap' => true,
+            'width' => '100px',
+            ],
             [
             	'class' => '\kartik\grid\DataColumn',
             	'hAlign' => 'center',
@@ -187,12 +217,30 @@ $this->params['breadcrumbs'][] = $this->title;
 	            'value' => 'defect',
 	            //'noWrap' => true,
             ],
-            //'defect',
-            //'defect',
-            'detail:ntext',
-            //'cause:ntext',
+            [
+            'class' => '\kartik\grid\DataColumn',
+            'hAlign' => 'center',
+            'attribute' => 'detail',
+            'value' => 'detail',
+            //'noWrap' => true,
+            ],
+            [
+            'class' => '\kartik\grid\DataColumn',
+            'hAlign' => 'center',
+            'attribute' => 'cause',
+            'value' => 'cause',
+            'hidden' => true,
+            //'noWrap' => true,
+            ],
             'action',
-            //'location',
+            [
+            'class' => '\kartik\grid\DataColumn',
+            'hAlign' => 'center',
+            'attribute' => 'location',
+            'value' => 'location',
+            		'hidden' => true,
+            //'noWrap' => true,
+            ],
             [
             	'class' => '\kartik\grid\DataColumn',
             	'hAlign' => 'center',
@@ -226,6 +274,14 @@ $this->params['breadcrumbs'][] = $this->title;
             	'filterType' => GridView::FILTER_DATE,
             	'filterWidgetOptions' => $filterOptions,
 	            'noWrap' => true,
+            ],
+            [
+            'class' => '\kartik\grid\DataColumn',
+            'hAlign' => 'center',
+            'attribute' => 'remark',
+            'value' => 'remark',
+            		'hidden' => true,
+            //'noWrap' => true,
             ],
 			//'remark:ntext',
 			/*'priority'*/
