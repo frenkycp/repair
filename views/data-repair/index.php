@@ -140,7 +140,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'format' => ['date', 'php:d-M-Y'],
 				'attribute' => 'in_date',
 				'value' => 'in_date',
-				//'filterType' => GridView::FILTER_DATE,
+				'filterType' => GridView::FILTER_DATE,
 				'filterWidgetOptions' => $filterOptions,
 				'noWrap' => true,
 			],

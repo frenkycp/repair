@@ -41,7 +41,7 @@ return Model::scenarios();
 */
 public function search($params)
 {
-	$query = DataRepair::find()->innerJoin('repair_status', 'status = name')->where(['flag' => 1])->orderBy(['priority' => SORT_ASC]);
+	$query = DataRepair::find()->innerJoin('repair_status', 'status = name')->where(['flag' => 1])->orderBy(['repair_status.id' => SORT_ASC]);
 	if(\Yii::$app->user->identity->username == 'adminfa')
 	{
 		$query->andFilterWhere(['section' => 'FA']);
@@ -65,7 +65,9 @@ public function search($params)
 	
 	$dataProvider->setSort([
 			'defaultOrder' => [
-					'no' => SORT_ASC
+					
+					'priority' => SORT_ASC,
+					'no' => SORT_ASC,
 			],
 			'attributes' => [
 					'priority',
