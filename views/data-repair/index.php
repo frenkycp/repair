@@ -105,9 +105,6 @@ $this->params['breadcrumbs'][] = $this->title;
             				},
             				'contentOptions' => ['nowrap'=>true]
         ],
-			//'no',
-			//'pic_prod',
-			//'pic_pe',
 			[
 				'class' => '\kartik\grid\DataColumn',
 				'hAlign' => 'center',
@@ -157,25 +154,16 @@ $this->params['breadcrumbs'][] = $this->title;
 				'noWrap' => true,
 				'enableSorting' => true,
 			],
-			//'section',
 			[
 					'class' => '\kartik\grid\DataColumn',
 					'hAlign' => 'center',
 					'attribute' => 'priority',
 					'format' => 'raw',
 					'filter' => [1 => 'URGENT', 2 => 'NORMAL'],
-					//'filter' => Html::dropDownList('priority', null, [1 => 'URGENT', 2 => 'NORMAL'],['class'=>'form-control','prompt' => '']),
-					/* 'filterType' => GridView::FILTER_SELECT2,
-					'filterWidgetOptions' => [
-							'data' => [1 => 'URGENT', 2 => 'NORMAL'],
-							'options' => ['placeholder' => 'Priority'],
-							'pluginOptions' => ['allowClear' => true],
-            		], */
 					'value' => function ($model){
-						return $model->priority == 1 ? '<div class="bg-red">URGENT</div>' : '<div class="bg-green">NORMAL</div>';
+						return $model->priority == 1 ? '<div class="bg-red" style="width: 70px;">URGENT</div>' : '<div class="bg-green" style="width: 70px;">NORMAL</div>';
             		},
             ],
-            //'model',
             [
             	'class' => '\kartik\grid\DataColumn',
             	'hAlign' => 'center',

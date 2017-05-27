@@ -151,24 +151,37 @@ class DataRepairController extends Controller
 		
 		if(\Yii::$app->user->identity->role->name == 'Admin FA')
 		{
-			$section_count = SectionCount::find()->where(['section' => 'FA'])->one();
-			$new_no = 'F' . str_pad($section_count->total_count+1, 4, '0', STR_PAD_LEFT);
-			$model->no = $new_no;
 			$model->section = "FA";
 		}else if(\Yii::$app->user->identity->role->name == 'Admin PCB'){
-			$section_count = SectionCount::find()->where(['section' => 'PCB'])->one();
-			$new_no = 'P' . str_pad($section_count->total_count+1, 4, '0', STR_PAD_LEFT);
-			$model->no = $new_no;
 			$model->section = "PCB";
 		}
 		$model->status = 'OPEN';
 		$model->priority = 2;
 
 		try {
-            if ($model->load($_POST) && $model->save()) {
-            	$section_count->total_count = $section_count->total_count + 1;
-            	$section_count->save();
-                return $this->redirect(Url::previous());
+            if ($model->load($_POST)) {
+            	if(\Yii::$app->user->identity->role->name == 'Admin FA')
+            	{
+            		$section_count = SectionCount::find()->where(['section' => 'FA'])->one();
+            		$new_no = 'F' . str_pad($section_count->total_count+1, 4, '0', STR_PAD_LEFT);
+            		$model->no = $new_no;
+            	}else if(\Yii::$app->user->identity->role->name == 'Admin PCB'){
+            		$section_count = SectionCount::find()->where(['section' => 'PCB'])->one();
+            		$new_no = 'P' . str_pad($section_count->total_count+1, 4, '0', STR_PAD_LEFT);
+            		$model->no = $new_no;
+            	}
+            	if($model->save())
+            	{
+            		$section_count->total_count = $section_count->total_count + 1;
+            		$section_count->save();
+            		\Yii::$app->session->addFlash("success", "Data Repair " . $model->no . " has been added...");
+            		return $this->redirect(Url::previous());
+            	}
+            	else 
+            	{
+            		return json_encode($model->errors);
+            	}
+            	
             } elseif (!\Yii::$app->request->isPost) {
                 $model->load($_GET);
             }

@@ -61,7 +61,7 @@ use app\models\RepairStatus;
 			$pic_pe = ArrayHelper::map(DataRepair::find()->select('pic_pe')->distinct()->orderBy('pic_pe ASC')->all(), 'pic_pe', 'pic_pe') ;
 			?>
 			<?= ''//$form->field($model, 'id')->textInput() ?>
-			<?= $form->field($model, 'no')->textInput([
+			<?= $model->isNewRecord ? '' : $form->field($model, 'no')->textInput([
 					'maxlength' => true, 
 					'readonly' => in_array(Yii::$app->user->identity->role->name, ['Administrator', 'Super Administrator']) ? false : true,
 			]) ?>
