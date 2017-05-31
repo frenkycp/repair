@@ -23,6 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php //     echo $this->render('_search', ['model' =>$searchModel]);
 	$filter_status = ArrayHelper::map(RepairStatus::find()->all(), 'id', 'name');
+	
     ?>
 
     <div class="clearfix">
@@ -97,6 +98,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 		[
             				'class' => 'yii\grid\ActionColumn',
                         	'template' => $template,
+                			'buttons' => [
+                					'urgent' => function ($url, $model, $key) {
+                						return !(in_array(strtolower(Yii::$app->user->identity->role->name), ['guest'])) ? Html::a('<span class="glyphicon glyphicon-refresh"></span>',
+                							['urgent', 'id'=>$model->id],
+                							[
+                									'title'=>'Change Priority',
+                									'data-confirm' => Yii::t('yii', 'Are you sure you want to change the priority of this item?'),
+                							]
+                						) : '';
+                					},
+                			],
 							'urlCreator' => function($action, $model, $key, $index) {
                 				// using the column name as key, not mapping to 'id' like the standard generator
                 				$params = is_array($key) ? $key : [$model->primaryKey()[0] => (string) $key];
@@ -104,7 +116,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 				return Url::toRoute($params);
             				},
             				'contentOptions' => ['nowrap'=>true]
-        ],
+        ], 
 			[
 				'class' => '\kartik\grid\DataColumn',
 				'hAlign' => 'center',

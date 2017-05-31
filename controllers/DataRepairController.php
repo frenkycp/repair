@@ -44,14 +44,18 @@ class DataRepairController extends Controller
 	public function actionIndex()
 	{
 		//different template for different user
-		$roleid = \Yii::$app->user->identity->role_id;
-		if($roleid == 3) //Guest
+		$roleid = \Yii::$app->user->identity->role->name;
+		$roleid = strtolower($roleid);
+		if($roleid == 'guest') //Guest
 		{
 			$template = '{view}';
-		}else if($roleid == 4 || $roleid == 5){ //Admin FA or PCB
+		}else if($roleid == 'admin fa' || $roleid == 'admin pcb'){ //Admin FA or PCB
 			$template = '{view} {update}';
-		}else if($roleid ==14 || $roleid == 2){ //Admin or Superadmin
+		}else if($roleid == 'administrator' || $roleid == 'super administrator'){ //Admin or Superadmin
 			$template = '{view} {update} {delete}';
+		}else if($roleid == 'admin produksi')
+		{
+			$template = '{view} {urgent}';
 		}
 		
 		//for datepicker filter
@@ -190,6 +194,28 @@ class DataRepairController extends Controller
             $model->addError('_exception', $msg);
 		}
         return $this->render('create', ['model' => $model]);
+	}
+	
+	public function actionUrgent($id)
+	{
+		$model = $this->findModel($id);
+		if($model->priority == 1)
+		{
+			$model->priority = 2;
+			$from = '"URGENT" to "NORMAL"';
+		}
+		else if($model->priority == 2)
+		{
+			$model->priority = 1;
+			$from = '"NORMAL" to "URGENT"';
+		}
+		
+		if(!$model->save())
+		{
+			return json_encode($model->errors);
+		}
+		\Yii::$app->session->addFlash("success", "Repair no. " . $model->no . '\'s priority has been changed from ' . $from . '.');
+		return $this->redirect(Url::previous());
 	}
 
 	/**
