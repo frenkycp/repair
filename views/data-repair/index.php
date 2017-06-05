@@ -100,7 +100,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         	'template' => $template,
                 			'buttons' => [
                 					'urgent' => function ($url, $model, $key) {
-                						return !(in_array(strtolower(Yii::$app->user->identity->role->name), ['guest'])) ? Html::a('<span class="glyphicon glyphicon-refresh"></span>',
+                						return strtolower($model->status) == 'open' && !(in_array(strtolower(Yii::$app->user->identity->role->name), ['guest'])) ? Html::a('<span class="glyphicon glyphicon-refresh"></span>',
                 							['urgent', 'id'=>$model->id],
                 							[
                 									'title'=>'Change Priority',
