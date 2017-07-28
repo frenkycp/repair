@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\widgets\DatePicker;
 
 /**
  * @var yii\web\View $this
@@ -17,17 +18,39 @@ use yii\widgets\ActiveForm;
 		'method' => 'get',
 	]); ?>
 
-		<?= $form->field($model, 'id') ?>
+		<?= '';//$form->field($model, 'id') ?>
 
-		<?= $form->field($model, 'no') ?>
+		<?= '';//$form->field($model, 'no') ?>
 
-		<?= $form->field($model, 'section') ?>
+		<?= '';//$form->field($model, 'section') ?>
 
-		<?= $form->field($model, 'pic_prod') ?>
+		<?= '';//$form->field($model, 'pic_prod') ?>
 
-		<?= $form->field($model, 'pic_pe') ?>
-
-		<?php // echo $form->field($model, 'in_date') ?>
+		<?= '';//$form->field($model, 'pic_pe') ?>
+		<div class="row">
+			<div class="col-md-6">
+				<?php  echo $form->field($model, 'inDate1')->widget(DatePicker::className(), [
+						'options' => ['placeholder' => 'Enter start date ...'],
+						'pluginOptions' => [
+								'autoclose'=>true,
+								'format' => 'yyyy-mm-dd',
+								'todayHighlight' => true
+						]
+				]) ?>
+			</div>
+			<div class="col-md-6">
+				<?php  echo $form->field($model, 'inDate2')->widget(DatePicker::className(), [
+						'options' => ['placeholder' => 'Enter end date ...'],
+						'pluginOptions' => [
+								'autoclose'=>true,
+								'format' => 'yyyy-mm-dd',
+								'todayHighlight' => true
+						]
+				]) ?>
+			</div>
+		</div>
+		
+		
 
 		<?php // echo $form->field($model, 'model') ?>
 

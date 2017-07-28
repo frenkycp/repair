@@ -52,7 +52,7 @@ class DataRepairController extends Controller
 		}else if($roleid == 'admin fa' || $roleid == 'admin pcb'){ //Admin FA or PCB
 			$template = '{view} {update}';
 		}else if($roleid == 'administrator' || $roleid == 'super administrator'){ //Admin or Superadmin
-			$template = '{view} {update} {delete}';
+			$template = '{view} {update} {delete} {expe-in}';
 		}else if($roleid == 'admin produksi')
 		{
 			$template = '{view} {urgent}';

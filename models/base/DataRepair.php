@@ -90,7 +90,12 @@ class DataRepair extends \yii\db\ActiveRecord
         ];
     }
 
-
-
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRepairExpes()
+    {
+    	return $this->hasMany(\app\models\RepairExpe::className(), ['repair_id' => 'id']);
+    } 
 
 }

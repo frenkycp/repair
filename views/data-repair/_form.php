@@ -55,7 +55,7 @@ use app\models\RepairStatus;
 					'distinct' => true,
 			])->where(['model' => $model->model])->orderBy(['pcb' => SORT_ASC])->asArray()->all(), 'pcb', 'pcb');
 			
-			$data_status = ArrayHelper::map(RepairStatus::find()->all(), 'name', 'name');
+			$data_status = ArrayHelper::map(RepairStatus::find()->where(['not in', 'name', ['EX-PE']])->orderBy('name ASC')->all(), 'name', 'name');
 			
 			$pic_prod = ArrayHelper::map(DataRepair::find()->select('pic_prod')->distinct()->orderBy('pic_prod ASC')->all(), 'pic_prod', 'pic_prod') ;
 			$pic_pe = ArrayHelper::map(DataRepair::find()->select('pic_pe')->distinct()->orderBy('pic_pe ASC')->all(), 'pic_pe', 'pic_pe') ;
