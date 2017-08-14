@@ -169,7 +169,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'filterWidgetOptions' => $filterOptions,
 				'noWrap' => true,
 			],
-			[
+			/* [
 				'class' => '\kartik\grid\DataColumn',
 				'hAlign' => 'center',
 				'format' => ['date', 'php:d-M-Y'],
@@ -181,7 +181,7 @@ $this->params['breadcrumbs'][] = $this->title;
 				'filterWidgetOptions' => $filterOptions,
 				'noWrap' => true,
 				'enableSorting' => true,
-			],
+			], */
 			[
 					'class' => '\kartik\grid\DataColumn',
 					'hAlign' => 'center',
