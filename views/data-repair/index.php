@@ -109,21 +109,21 @@ $this->params['breadcrumbs'][] = $this->title;
                 						) : '';
                 					},
                 					'expe-in' => function ($url, $model, $key) {
-                					/* return $model->getRepairExpes()->one() == NULL ? Html::a('<span class="glyphicon glyphicon-import"></span>',
+                					return $model->getRepairExpes()->one() == NULL ? Html::a('<span class="glyphicon glyphicon-import"></span>',
                 							['repair-expe/expe-in', 'repair_id'=>$model->id],
                 							[
                 									'title'=>'Transfer to Ex-PE',
                 									'data-confirm' => Yii::t('yii', 'Are you sure to transfer this part to Ex-PE?'),
                 							]
                 							) : '<span class="glyphicon glyphicon-import" style="color: rgba(60, 141, 188, 0.48);"></span>';
-                					}, */
-                					return Html::a('<span class="glyphicon glyphicon-import"></span>',
+                					},
+                					/* return Html::a('<span class="glyphicon glyphicon-import"></span>',
                 					['repair-expe/expe-in', 'repair_id'=>$model->id],
                 					[
                 					'title'=>'Transfer to Ex-PE',
                 					'data-confirm' => Yii::t('yii', 'Are you sure to transfer this part to Ex-PE?'),
                 					]
-                					);},
+                					);}, */
                 			],
 							'urlCreator' => function($action, $model, $key, $index) {
                 				// using the column name as key, not mapping to 'id' like the standard generator

@@ -81,7 +81,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         [
             'class' => 'yii\grid\ActionColumn',
-			'template' => in_array(Yii::$app->user->identity->username, ['adminfa', 'adminpcb']) ? '{expe-out}' : '',
+			'template' => in_array(Yii::$app->user->identity->username, ['adminfa', 'adminpcb', 'admin']) ? '{expe-out}' : '',
                         		'buttons' => [
                         				'expe-out' => function ($url, $model, $key) {
                         				return $model->mds_out == NULL ? Html::a('<span class="glyphicon glyphicon-export"></span>',
