@@ -19,6 +19,7 @@ $this->title = 'Data Repairs';
 $this->params['breadcrumbs'][] = $this->title;
 
 $colWidth = ["75px", "100px", "150px", "200px"];
+$filter_status = ArrayHelper::map(RepairStatus::find()->all(), 'id', 'name');
 
 $columns = [
     [
@@ -210,7 +211,7 @@ $columns = [
         'vAlign' => 'middle',
         'format' => 'raw',
         'attribute' => 'repairStatusId',
-        'headerOptions' => ['style' => 'min-width: ' . $colWidth[0]],
+        'headerOptions' => ['style' => 'min-width: ' . $colWidth[1]],
         'value' => function ($model){
             if(strtoupper($model->status) == 'OPEN')
             {
@@ -255,9 +256,8 @@ $columns = [
 
 <div class="giiant-crud data-repair-index">
 
-    <?php      //echo $this->render('_search', ['model' =>$searchModel]);
-	$filter_status = ArrayHelper::map(RepairStatus::find()->all(), 'id', 'name');
-	
+    <?php
+        //echo $this->render('_search', ['model' =>$searchModel]);
     ?>
 
     <div class="clearfix">
@@ -304,38 +304,37 @@ $columns = [
 
                 <!-- <div class="table-responsive">  -->
                 <?= GridView::widget([
-                //'layout' => '{summary}{pager}{items}{pager}',
-                		'panel' => [
-                				'type' => 'primary',
-                				'heading' => 'Data Repair',
-                				'before' => ' ',
-                				'after' => false,
-                		],
-                'dataProvider' => $dataProvider,
-                'filterRowOptions'=>['class'=>'kartik-sheet-style'],
-                'responsive' => true,
-                		'pjax'=>true,
-                'pager'        => [
-                    'class'          => yii\widgets\LinkPager::className(),
-                    'firstPageLabel' => 'First',
-                    'lastPageLabel'  => 'Last'                ],
-                'filterModel' => $searchModel,
-                'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
-                'headerRowOptions' => ['class'=>'center-text'],
-                		'exportConfig' => [
-                				
-                				GridView::EXCEL => [
-                						'filename' => 'Data Repair ' . date('Y-m-d H:i:s'),
-                				],
-                		],
-                'columns' => $columns,
-            ]); ?>
+                    //'layout' => '{summary}{pager}{items}{pager}',
+                    'panel' => [
+                        'type' => 'primary',
+                        'heading' => 'Data Repair',
+                        'before' => ' ',
+                        'after' => false,
+                    ],
+                    'dataProvider' => $dataProvider,
+                    'filterRowOptions'=>['class'=>'kartik-sheet-style'],
+                    'responsive' => true,
+                    'pjax'=>true,
+                    'pager'        => [
+                        'class'          => yii\widgets\LinkPager::className(),
+                        'firstPageLabel' => 'First',
+                        'lastPageLabel'  => 'Last'                
+                    ],
+                    'filterModel' => $searchModel,
+                    'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
+                    'headerRowOptions' => ['class'=>'center-text'],
+                    'exportConfig' => [
+                        GridView::EXCEL => [
+                            'filename' => 'Data Repair ' . date('Y-m-d H:i:s'),
+                        ],
+                    ],
+                    'columns' => $columns,
+                ]); ?>
                 <!-- </div>  -->
 
             <!-- </div>
 
         </div>  -->
-
         <?php \yii\widgets\Pjax::end() ?>
 
     

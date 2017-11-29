@@ -60,14 +60,14 @@ class DataRepairController extends Controller
 		
 		//for datepicker filter
 		$filterOptions = [
-				'pickerButton' => false,
-				'readonly' => true,
-				'size' => 'sm',
-				'pluginOptions' => [
-						'autoclose'=>true,
-						'format' => 'yyyy-mm-dd',
-						'todayHighlight' => true,
-				],
+                    'pickerButton' => false,
+                    'readonly' => true,
+                    'size' => 'sm',
+                    'pluginOptions' => [
+                                    'autoclose'=>true,
+                                    'format' => 'yyyy-mm-dd',
+                                    'todayHighlight' => true,
+                    ],
 		];
 		
 		$data_model = ArrayHelper::map(RepairTime::find()->select('model')->distinct(true)->orderBy('model')->all(), 'model', 'model');
