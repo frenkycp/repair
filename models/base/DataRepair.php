@@ -28,6 +28,8 @@ use Yii;
  * @property string $est_finish_date
  * @property integer $repair_time_id
  * @property integer $flag
+ *
+ * @property \app\models\RepairExpe[] $repairExpes
  */
 class DataRepair extends \yii\db\ActiveRecord
 {
@@ -50,12 +52,12 @@ class DataRepair extends \yii\db\ActiveRecord
         return [
             [['no'], 'required'],
             [['in_date', 'out_date', 'est_finish_date'], 'safe'],
-            [['detail', 'cause', 'remark'], 'string'],
+            [['detail', 'cause', 'action', 'remark'], 'string'],
             [['priority', 'repair_time_id', 'flag'], 'integer'],
             [['no'], 'string', 'max' => 20],
             [['section'], 'string', 'max' => 5],
             [['pic_prod', 'pic_pe', 'model', 'dest', 'pcb'], 'string', 'max' => 100],
-            [['defect', 'action', 'location'], 'string', 'max' => 200],
+            [['defect', 'location'], 'string', 'max' => 200],
             [['status'], 'string', 'max' => 50]
         ];
     }
@@ -95,7 +97,10 @@ class DataRepair extends \yii\db\ActiveRecord
      */
     public function getRepairExpes()
     {
-    	return $this->hasMany(\app\models\RepairExpe::className(), ['repair_id' => 'id']);
-    } 
+        return $this->hasMany(\app\models\RepairExpe::className(), ['repair_id' => 'id']);
+    }
+
+
+
 
 }

@@ -127,7 +127,7 @@ use app\models\RepairStatus;
 			<?= $form->field($model, 'defect')->textInput(['maxlength' => true]) ?>
 			<?= $form->field($model, 'detail')->textarea(['rows' => 6]) ?>
 			<?= $form->field($model, 'cause')->textarea(['rows' => 6]) ?>
-			<?= $form->field($model, 'action')->textInput(['maxlength' => true]) ?>
+			<?= $form->field($model, 'action')->textarea(['rows' => 6]) ?>
 			<?= $form->field($model, 'location')->textInput(['maxlength' => true]) ?>
 			<?= $form->field($model, 'status')->dropDownList($data_status, [
 					'disabled' => $model->isNewRecord ? true : false,

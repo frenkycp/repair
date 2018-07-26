@@ -50,9 +50,12 @@ $this->params['breadcrumbs'][] = 'View';
 
 
     <?php $this->beginBlock('app\models\DataRepair'); ?>
-
-    <?= DetailView::widget([
+	
+	<div class="row">
+		<div class="col-md-6">
+			<?= DetailView::widget([
     'model' => $model,
+	'template' => '<tr><th style="width : 30%;">{label}</th><td>{value}</td></tr>',
     'attributes' => [
             //'id',
         'no',
@@ -69,13 +72,20 @@ $this->params['breadcrumbs'][] = 'View';
         'defect',
         'detail:ntext',
         'cause:ntext',
-        'action',
+        'action:ntext',
         'location',
         'status',
         'remark:ntext',
         //'flag',
     ],
     ]); ?>
+		</div>
+		<div class="col-md-6">
+		
+		</div>
+	</div>
+
+    
 
     <hr/>
 
