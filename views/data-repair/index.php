@@ -192,8 +192,8 @@ $columns = [
         'vAlign' => 'middle',
         'attribute' => 'action',
         'value' => 'action',
+        'hidden' => true,
         'headerOptions' => ['style' => 'min-width: ' . $colWidth[1]],
-        //'noWrap' => true,
     ],
     [
         'class' => '\kartik\grid\DataColumn',

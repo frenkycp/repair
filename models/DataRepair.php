@@ -43,21 +43,6 @@ class DataRepair extends BaseDataRepair
 		];
 	}
 	
-	public function rules()
-	{
-		return [
-				[['no'], 'required'],
-				[['in_date', 'out_date', 'est_finish_date'], 'safe'],
-				[['detail', 'cause', 'remark'], 'string'],
-				[['priority', 'flag'], 'integer'],
-				[['no'], 'string', 'max' => 20],
-				[['section'], 'string', 'max' => 5],
-				[['pic_prod', 'pic_pe', 'model', 'dest', 'pcb'], 'string', 'max' => 100],
-				[['defect', 'action', 'location'], 'string', 'max' => 200],
-				[['status'], 'string', 'max' => 50]
-		];
-	}
-	
 	public function getPriorityStr()
 	{
 		if($this->priority == 1)
