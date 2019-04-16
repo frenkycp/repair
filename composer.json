@@ -24,7 +24,8 @@
         "kartik-v/yii2-grid": "@dev",
         "kartik-v/yii2-mpdf": "*",
         "kartik-v/yii2-widget-select2": "*",
-        "kartik-v/yii2-widgets": "*"
+        "kartik-v/yii2-widgets": "*",
+        "miloschuman/yii2-highcharts-widget": "^7.0"
     },
     "require-dev": {
         "yiisoft/yii2-codeception": "*",

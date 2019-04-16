@@ -3,3 +3,4 @@ composer.phar
 .settings/org.eclipse.wst.validation.prefs
 .buildpath
 .project
+vendor/

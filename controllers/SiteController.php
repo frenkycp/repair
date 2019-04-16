@@ -14,6 +14,7 @@ use app\models\LoginForm;
 use app\models\ContactForm;
 use yii\web\UploadedFile;
 use app\models\DataRepair;
+use app\models\RepairMonthlyView;
 
 class SiteController extends Controller
 {
@@ -40,6 +41,13 @@ class SiteController extends Controller
 
     public function actionIndex()
     {
+        $year = date('Y');
+        $categories = [];
+
+        if (\Yii::$app->request->get('year') !== null) {
+            $year = \Yii::$app->request->get('year');
+        }
+
     	$rep_open = DataRepair::find()->where(['flag' => 1, 'status' => 'OPEN']);
     	$rep_return = DataRepair::find()->where(['flag' => 1, 'status' => 'Return']);
     	$rep_scrap = DataRepair::find()->where(['flag' => 1, 'status' => 'Scrap']);
@@ -58,13 +66,76 @@ class SiteController extends Controller
     		$rep_scrap->andFilterWhere(['section' => 'PCB']);
     		$rep_ok->andFilterWhere(['section' => 'PCB']);
     	}
+
+        $tmp_db_repair = RepairMonthlyView::find()
+        ->where([
+            'year' => $year
+        ])
+        ->asArray()
+        ->all();
     	
+        for ($i = 1; $i <= 12; $i++) {
+            $tmp_month = str_pad($i, 2, '0', STR_PAD_LEFT);
+            $period = $year . $tmp_month;
+            $categories[] = $period;
+
+            $total_open = 0;
+            $total_return = 0;
+            $total_scrap = 0;
+            $total_ok = 0;
+            foreach ($tmp_db_repair as $key => $value) {
+                if ($value['period'] == $period) {
+                    $total_open = (int)$value['total_open'];
+                    $total_return = (int)$value['total_return'];
+                    $total_scrap = (int)$value['total_scrap'];
+                    $total_ok = (int)$value['total_ok'];
+                }
+            }
+            $data['open'][] = [
+                'y' => $total_open,
+            ];
+            $data['return'][] = [
+                'y' => $total_return,
+            ];
+            $data['scrap'][] = [
+                'y' => $total_scrap,
+            ];
+            $data['ok'][] = [
+                'y' => $total_ok,
+            ];
+        }
+
+        $final_data = [
+            [
+                'name' => 'OPEN',
+                'data' => $data['open'],
+                'color' => '#dd4b39',
+            ],
+            [
+                'name' => 'RETURN',
+                'data' => $data['return'],
+                'color' => '#39cccc',
+            ],
+            [
+                'name' => 'SCRAP',
+                'data' => $data['scrap'],
+                'color' => '#f39c12',
+            ],
+            [
+                'name' => 'OK',
+                'data' => $data['ok'],
+                'color' => '#00a65a',
+            ],
+        ];
     	
         return $this->render('index', [
         		'rep_open' => $rep_open->count(),
         		'rep_return' => $rep_return->count(),
         		'rep_scrap' => $rep_scrap->count(),
         		'rep_ok' => $rep_ok->count(),
+                'data' => $final_data,
+                'categories' => $categories,
+                'year' => $year
         ]);
     }
 

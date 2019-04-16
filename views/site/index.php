@@ -1,6 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use miloschuman\highcharts\Highcharts;
+use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
 
@@ -57,6 +59,70 @@ $this->title = 'Home';
 				</div>
 				<?= Html::a('More Info ', Url::to(['data-repair/index','index_type' => 'ok']), ['target' => '_blank', 'class' => 'small-box-footer']); ?>
 			</div>
+		</div>
+	</div>
+	<div class="box box-primary box-solid">
+		<div class="box-header">
+			<h3 class="box-title">Last Update : <?= date('Y-m-d H:i:s'); ?></h3>
+			<div class="pull-right">
+				<?php $form = ActiveForm::begin([
+				    'method' => 'get',
+				    'layout' => 'horizontal',
+				    'action' => Url::to(['site/index']),
+				]); ?>
+
+				<?= Html::dropDownList('year', $year, \Yii::$app->params['year_arr'], [
+		            'class' => 'form-control',
+		            'onchange'=>'this.form.submit()'
+		        ]); ?>
+
+		        <?php ActiveForm::end(); ?>
+			</div>
+		</div>
+		<div class="box-body">
+			<?php
+            echo Highcharts::widget([
+                'scripts' => [
+                    //'modules/exporting',
+                    'themes/grid-light',
+                    //'themes/sand-signika',
+                    //'themes/dark-unica',
+                ],
+                'options' => [
+                    'chart' => [
+                        'type' => 'column',
+                        'style' => [
+                            'fontFamily' => 'Source Sans Pro'
+                        ],
+                    ],
+                    'title' => [
+                        'text' => null
+                    ],
+                    'credits' => [
+                        'enabled' => false
+                    ],
+                    'xAxis' => [
+                        'categories' => $categories,
+                    ],
+                    'yAxis' => [
+                        'title' => [
+                            'text' => 'Qty'
+                        ],
+                        'min' => 0,
+                        //'max' => 100,
+                    ],
+                    'plotOptions' => [
+                        'column' => [
+                            'dataLabels' => [
+                                'enabled' => true,
+                                'allowOverlap' => true
+                            ],
+                        ],
+                    ],
+                    'series' => $data
+                ],
+            ]);
+            ?>
 		</div>
 	</div>
 	
