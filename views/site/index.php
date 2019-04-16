@@ -105,6 +105,9 @@ $this->title = 'Home';
                         'categories' => $categories,
                     ],
                     'yAxis' => [
+                    	'stackLabels' => [
+                    		'enabled' => true,
+                    	],
                         'title' => [
                             'text' => 'Qty'
                         ],
@@ -113,6 +116,7 @@ $this->title = 'Home';
                     ],
                     'plotOptions' => [
                         'column' => [
+                        	'stacking' => 'normal',
                             'dataLabels' => [
                                 'enabled' => true,
                                 'allowOverlap' => true

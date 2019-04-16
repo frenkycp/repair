@@ -79,10 +79,10 @@ class SiteController extends Controller
             $period = $year . $tmp_month;
             $categories[] = $period;
 
-            $total_open = 0;
-            $total_return = 0;
-            $total_scrap = 0;
-            $total_ok = 0;
+            $total_open = null;
+            $total_return = null;
+            $total_scrap = null;
+            $total_ok = null;
             foreach ($tmp_db_repair as $key => $value) {
                 if ($value['period'] == $period) {
                     $total_open = (int)$value['total_open'];
