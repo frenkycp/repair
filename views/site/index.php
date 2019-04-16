@@ -3,10 +3,23 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use miloschuman\highcharts\Highcharts;
 use yii\bootstrap\ActiveForm;
+use yii\web\View;
 
 /* @var $this yii\web\View */
 
 $this->title = 'Home';
+
+$script = <<< JS
+    window.onload = setupRefresh;
+
+    function setupRefresh() {
+      setTimeout("refreshPage();", 600000); // milliseconds
+    }
+    function refreshPage() {
+       window.location = location.href;
+    }
+JS;
+$this->registerJs($script, View::POS_HEAD );
 ?>
 <section class="content-header">
 	<h1>
@@ -27,7 +40,7 @@ $this->title = 'Home';
 					<h3><?= $rep_open; ?></h3>
 					<p>OPEN</p>
 				</div>
-				<?= Html::a('More Info ', Url::to(['data-repair/index','index_type' => 'open']), ['target' => '_blank', 'class' => 'small-box-footer']); ?>
+				<?= Html::a('More Info ', Url::to(['data-repair/index','index_type' => 'open', 'year' => $year]), ['target' => '_blank', 'class' => 'small-box-footer']); ?>
 			</div>
 		</div>
 		
@@ -37,7 +50,7 @@ $this->title = 'Home';
 					<h3><?= $rep_return; ?></h3>
 					<p>RETURN</p>
 				</div>
-				<?= Html::a('More Info ', Url::to(['data-repair/index','index_type' => 'return']), ['target' => '_blank', 'class' => 'small-box-footer']); ?>
+				<?= Html::a('More Info ', Url::to(['data-repair/index','index_type' => 'return', 'year' => $year]), ['target' => '_blank', 'class' => 'small-box-footer']); ?>
 			</div>
 		</div>
 		
@@ -47,7 +60,7 @@ $this->title = 'Home';
 					<h3><?= $rep_scrap; ?></h3>
 					<p>SCRAP</p>
 				</div>
-				<?= Html::a('More Info ', Url::to(['data-repair/index','index_type' => 'scrap']), ['target' => '_blank', 'class' => 'small-box-footer']); ?>
+				<?= Html::a('More Info ', Url::to(['data-repair/index','index_type' => 'scrap', 'year' => $year]), ['target' => '_blank', 'class' => 'small-box-footer']); ?>
 			</div>
 		</div>
 		
@@ -57,7 +70,7 @@ $this->title = 'Home';
 					<h3><?= $rep_ok; ?></h3>
 					<p>OK</p>
 				</div>
-				<?= Html::a('More Info ', Url::to(['data-repair/index','index_type' => 'ok']), ['target' => '_blank', 'class' => 'small-box-footer']); ?>
+				<?= Html::a('More Info ', Url::to(['data-repair/index','index_type' => 'ok', 'year' => $year]), ['target' => '_blank', 'class' => 'small-box-footer']); ?>
 			</div>
 		</div>
 	</div>

@@ -48,10 +48,10 @@ class SiteController extends Controller
             $year = \Yii::$app->request->get('year');
         }
 
-    	$rep_open = DataRepair::find()->where(['flag' => 1, 'status' => 'OPEN']);
-    	$rep_return = DataRepair::find()->where(['flag' => 1, 'status' => 'Return']);
-    	$rep_scrap = DataRepair::find()->where(['flag' => 1, 'status' => 'Scrap']);
-    	$rep_ok = DataRepair::find()->where(['flag' => 1, 'status' => 'OK']);
+    	$rep_open = DataRepair::find()->where(['flag' => 1, 'status' => 'OPEN', 'EXTRACT(YEAR FROM in_date)' => $year]);
+    	$rep_return = DataRepair::find()->where(['flag' => 1, 'status' => 'Return', 'EXTRACT(YEAR FROM in_date)' => $year]);
+    	$rep_scrap = DataRepair::find()->where(['flag' => 1, 'status' => ['Scrap', 'EX-PE'], 'EXTRACT(YEAR FROM in_date)' => $year]);
+    	$rep_ok = DataRepair::find()->where(['flag' => 1, 'status' => 'OK', 'EXTRACT(YEAR FROM in_date)' => $year]);
     	
     	if(\Yii::$app->user->identity->role_id == 4) //admin FA
     	{
@@ -59,20 +59,45 @@ class SiteController extends Controller
     		$rep_return->andFilterWhere(['section' => 'FA']);
     		$rep_scrap->andFilterWhere(['section' => 'FA']);
     		$rep_ok->andFilterWhere(['section' => 'FA']);
+
+            $tmp_db_repair = RepairMonthlyView::find()
+            ->where([
+                'year' => $year,
+                'section' => 'FA',
+            ])
+            ->asArray()
+            ->all();
     	}else if(\Yii::$app->user->identity->role_id == 5) //admin PCB
     	{
     		$rep_open->andFilterWhere(['section' => 'PCB']);
     		$rep_return->andFilterWhere(['section' => 'PCB']);
     		$rep_scrap->andFilterWhere(['section' => 'PCB']);
     		$rep_ok->andFilterWhere(['section' => 'PCB']);
-    	}
 
-        $tmp_db_repair = RepairMonthlyView::find()
-        ->where([
-            'year' => $year
-        ])
-        ->asArray()
-        ->all();
+            $tmp_db_repair = RepairMonthlyView::find()
+            ->where([
+                'year' => $year,
+                'section' => 'PCB',
+            ])
+            ->asArray()
+            ->all();
+    	} else {
+            $tmp_db_repair = RepairMonthlyView::find()
+            ->select([
+                'year',
+                'period',
+                'total_open' => 'SUM(total_open)',
+                'total_return' => 'SUM(total_return)',
+                'total_scrap' => 'SUM(total_scrap)',
+                'total_ok' => 'SUM(total_ok)',
+            ])
+            ->where([
+                'year' => $year
+            ])
+            ->groupBy('year, period')
+            ->asArray()
+            ->all();
+        }
     	
         for ($i = 1; $i <= 12; $i++) {
             $tmp_month = str_pad($i, 2, '0', STR_PAD_LEFT);
@@ -85,10 +110,10 @@ class SiteController extends Controller
             $total_ok = null;
             foreach ($tmp_db_repair as $key => $value) {
                 if ($value['period'] == $period) {
-                    $total_open = (int)$value['total_open'];
-                    $total_return = (int)$value['total_return'];
-                    $total_scrap = (int)$value['total_scrap'];
-                    $total_ok = (int)$value['total_ok'];
+                    $total_open = (int)$value['total_open'] == 0 ? null : (int)$value['total_open'];
+                    $total_return = (int)$value['total_return'] == 0 ? null : (int)$value['total_return'];
+                    $total_scrap = (int)$value['total_scrap'] == 0 ? null : (int)$value['total_scrap'];
+                    $total_ok = (int)$value['total_ok'] == 0 ? null : (int)$value['total_ok'];
                 }
             }
             $data['open'][] = [

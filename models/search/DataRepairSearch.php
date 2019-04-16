@@ -19,7 +19,7 @@ public function rules()
 {
 return [
 [['id', 'priority', 'flag', 'repairStatusId'], 'integer'],
-            [['no', 'section', 'pic_prod', 'pic_pe', 'in_date', 'model', 'dest', 'pcb', 'defect', 'detail', 'cause', 'action', 'location', 'status', 'out_date', 'remark', 'est_finish_date'], 'safe'],
+            [['no', 'section', 'pic_prod', 'pic_pe', 'in_date', 'model', 'dest', 'pcb', 'defect', 'detail', 'cause', 'action', 'location', 'status', 'out_date', 'remark', 'est_finish_date', 'year', 'period'], 'safe'],
 ];
 }
 
@@ -54,7 +54,7 @@ public function search($params)
 	}else if($params['index_type'] == 'return'){
 		$query->andFilterWhere(['status' => 'Return']);
 	}else if($params['index_type'] == 'scrap'){
-		$query->andFilterWhere(['status' => 'Scrap']);
+		$query->andFilterWhere(['status' => ['Scrap', 'EX-PE']]);
 	}else if($params['index_type'] == 'ok'){
 		$query->andFilterWhere(['status' => 'OK']);
 	}
@@ -96,6 +96,7 @@ public function search($params)
 	$query->andFilterWhere([
             'id' => $this->id,
             'in_date' => $this->in_date,
+            'EXTRACT(YEAR FROM in_date)' => $params['year'],
             'out_date' => $this->out_date,
             'priority' => $this->priority,
             'est_finish_date' => $this->est_finish_date,

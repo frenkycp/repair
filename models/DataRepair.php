@@ -12,7 +12,7 @@ class DataRepair extends BaseDataRepair
 {
 	
 	public $repairStatusId;
-	public $inDate1, $inDate2;
+	public $inDate1, $inDate2, $year, $period;
 	
 	public function attributeLabels()
 	{

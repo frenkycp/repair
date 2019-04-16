@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $year
  * @property integer $period
+ * @property string $section
  * @property string $total_open
  * @property string $total_ok
  * @property string $total_return
@@ -35,6 +36,7 @@ class RepairMonthlyView extends \yii\db\ActiveRecord
     {
         return [
             [['year', 'period'], 'integer'],
+            [['section'], 'string'],
             [['total_open', 'total_ok', 'total_return', 'total_scrap', 'total_expe'], 'number']
         ];
     }
@@ -47,6 +49,7 @@ class RepairMonthlyView extends \yii\db\ActiveRecord
         return [
             'year' => 'Year',
             'period' => 'Period',
+            'section' => 'Section',
             'total_open' => 'Total Open',
             'total_ok' => 'Total Ok',
             'total_return' => 'Total Return',
