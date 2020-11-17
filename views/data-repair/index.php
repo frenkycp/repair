@@ -323,10 +323,9 @@ $columns = [
                     'filterModel' => $searchModel,
                     'tableOptions' => ['class' => 'table table-striped table-bordered table-hover'],
                     'headerRowOptions' => ['class'=>'center-text'],
-                    'exportConfig' => [
-                        GridView::EXCEL => [
-                            'filename' => 'Data Repair ' . date('Y-m-d H:i:s'),
-                        ],
+                    'toolbar' =>  [
+                        '{export}',
+                        '{toggleData}',
                     ],
                     'columns' => $columns,
                 ]); ?>
